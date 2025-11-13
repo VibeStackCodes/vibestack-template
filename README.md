@@ -7,7 +7,7 @@ A modern, production-ready app built with React, Vite, TypeScript, and Tailwind 
 - ⚡ **Vite 7** - Lightning fast build tool
 - ⚛️ **React 19** - Latest React with TypeScript
 - 🎨 **Tailwind CSS v4** - Modern utility-first CSS
-- 🧩 **shadcn/ui** - Beautiful, accessible components
+- 🧩 **shadcn/ui** - Beautiful, accessible components (installed on-demand)
 - 🔄 **React Router v7** - Client-side routing with code splitting
 - 🗄️ **Zustand** - Lightweight state management
 - 🔌 **TanStack React Query** - Powerful data fetching
@@ -39,7 +39,7 @@ template-setup/
 ├── public/              # Static assets
 ├── src/
 │   ├── components/      # React components
-│   │   ├── ui/         # shadcn/ui components
+│   │   ├── ui/         # Core shadcn/ui components (others installed on-demand)
 │   │   └── ...         # Feature components
 │   ├── hooks/          # Custom React hooks
 │   ├── lib/            # Utilities and helpers
@@ -70,7 +70,7 @@ template-setup/
 - **React Router 7.9.5** - Routing
 
 ### UI Components
-- **shadcn/ui** - Component library (53+ components)
+- **shadcn/ui** - Component library (core components included, others installed on-demand)
 - **lucide-react** - Icon library
 - **Radix UI** - Accessible primitives
 
@@ -133,6 +133,9 @@ TypeScript path aliases are configured:
 
 ### Tailwind CSS
 Configured with shadcn/ui theme. Customize in `src/index.css` using `@theme` directive.
+
+### shadcn/ui Components
+The template includes core components (Button, Input, Label, Card, Dialog, Select, Tabs, Badge, Alert, Textarea). Additional components are automatically installed on-demand when imported in generated code.
 
 ## 📦 Dependency Updates
 

@@ -27,7 +27,6 @@ export default tseslint.config(
         { allowConstantExport: true, allowExportNames: ['queryClient'] },
       ],
       'prettier/prettier': 'warn',
-      // Allow unused vars in shadcn components (they're examples/templates)
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
