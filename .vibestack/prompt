@@ -7,7 +7,7 @@ This template is a modern, production-ready React 18+ application built with Vit
 - **Framework**: React 19+ with Vite 7+
 - **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS v4 (CSS-first approach with @theme)
-- **Components**: shadcn/ui (50+ components available in `src/components/ui/`)
+- **Components**: shadcn/ui (core components in template, others installed on-demand)
 - **Icons**: lucide-react
 - **State Management**: Zustand (client-side) + TanStack React Query (server state)
 - **Routing**: React Router v7 (SPA routing with lazy loading)
@@ -45,7 +45,10 @@ src/
 
 ## Available shadcn/ui Components
 
-**50+ components are available** - see `src/components/ui/registry.ts` for the complete list.
+**Core components available in template:**
+- Button, Input, Label, Textarea, Card, Alert, Badge, Dialog, Select, Tabs, AlertDialog
+
+**Additional components** (Sheet, Popover, Accordion, Table, Avatar, Calendar, etc.) are **automatically installed on-demand** when imported in generated code. You can import any shadcn component - if it's not in the template, it will be fetched from the registry and added automatically.
 
 ### Component Import Rules (CRITICAL)
 
@@ -53,10 +56,10 @@ src/
    ```typescript
    ✅ import { Button } from '@/components/ui/button'
    ✅ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-   ❌ import { Button } from '@/components/ui/registry'  // NEVER do this
+   ✅ import { Sheet } from '@/components/ui/sheet'  // Will be auto-installed if not in template
    ```
 
-2. **Tree-shaking works automatically** - Only imported components are bundled. Having all components in the codebase doesn't increase bundle size.
+2. **On-demand installation** - If you import a component that doesn't exist (e.g., Sheet, Popover, Accordion), it will be automatically fetched from the shadcn registry and added to the project.
 
 3. **DO NOT modify files in `src/components/ui/`** - These are protected shadcn/ui components.
 
@@ -74,45 +77,31 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 **Forms:**
 ```typescript
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form'
-import { Checkbox } from '@/components/ui/checkbox'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'  // ✅ Core component
+import { Textarea } from '@/components/ui/textarea'  // ✅ Core component
+// Form, Checkbox, RadioGroup, Switch - will be auto-installed if imported
 ```
 
 **Dialogs & Overlays:**
 ```typescript
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog'
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet'
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel } from '@/components/ui/alert-dialog'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog'  // ✅ Core component
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel } from '@/components/ui/alert-dialog'  // ✅ Core component
+// Sheet, Popover - will be auto-installed if imported
 ```
 
 **Navigation:**
 ```typescript
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent } from '@/components/ui/navigation-menu'
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'  // ✅ Core component
+// Accordion, NavigationMenu, Breadcrumb - will be auto-installed if imported
 ```
 
 **Data Display:**
 ```typescript
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Progress } from '@/components/ui/progress'
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'  // ✅ Core component
+// Table, Skeleton, Progress - will be auto-installed if imported
 ```
 
-**Feedback:**
-```typescript
-import { Sonner } from '@/components/ui/sonner'  // Toast notifications
-import { Spinner } from '@/components/ui/spinner'
-```
-
-See `src/components/ui/registry.ts` for the complete list with import examples.
+**Note:** You can import ANY shadcn component. If it's not in the template, it will be automatically installed from the registry when the code is generated.
 
 ## State Management
 
@@ -355,7 +344,7 @@ export function MyComponent({ className, title, onAction }: MyComponentProps) {
 1. **DO NOT modify files in `src/components/ui/`** - These are protected shadcn/ui components
 2. **DO NOT modify `src/components/vibestack-badge.tsx`** - The VibeStack badge is protected and must remain visible
 3. **DO NOT remove the VibeStackBadge import from App.tsx** - The badge must always be displayed
-4. **Import components individually** - Never import from registry.ts
+4. **Import any shadcn component** - Core components are in template, others auto-install on-demand
 5. **Use existing utilities** - Leverage `api-client`, `env`, `react-query`, etc.
 6. **Follow TypeScript strict mode** - No `any` types, proper type definitions
 7. **Use path aliases** - Always use `@/` prefix for imports from `src/`
@@ -414,4 +403,4 @@ export function MyComponent({ className, title, onAction }: MyComponentProps) {
 - **No barrel exports**: Components imported individually
 - **Lightweight dependencies**: Native fetch, minimal dependencies
 
-All shadcn components are available in the codebase for code generation, but only imported components are included in the final bundle.
+Core shadcn components are in the template. Additional components are automatically installed on-demand when imported, ensuring a lean template while maintaining full component availability.
