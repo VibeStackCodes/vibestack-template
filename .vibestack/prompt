@@ -21,7 +21,8 @@ This template is a modern, production-ready React 18+ application built with Vit
 src/
 ├── components/
 │   ├── ui/          # shadcn/ui components (PROTECTED - DO NOT MODIFY)
-│   │   └── registry.ts  # Component registry (reference only, don't import)
+│   │                # Core components: Button, Input, Label, Card, Dialog, Select, Tabs, Badge, Alert, Textarea, AlertDialog
+│   │                # Additional components auto-install on-demand when imported
 │   ├── features/    # Feature-specific components
 │   ├── layout/      # Layout components
 │   ├── error-boundary.tsx  # Global error boundary
