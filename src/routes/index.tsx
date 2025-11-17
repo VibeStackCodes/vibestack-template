@@ -10,7 +10,21 @@ function getBasename(): string {
   if (typeof window !== 'undefined') {
     const previewBasename = (window as { __PREVIEW_BASENAME__?: string }).__PREVIEW_BASENAME__
     if (previewBasename) {
+      console.log('[Router] Using basename from window.__PREVIEW_BASENAME__:', previewBasename)
       return previewBasename
+    }
+
+    // Fallback: detect basename from current URL pathname
+    // This handles cases where the script hasn't run yet or for preview proxy URLs
+    if (window.location.pathname.startsWith('/api/preview/')) {
+      const pathMatch = window.location.pathname.match(/^(\/api\/preview\/[^/]+)/)
+      if (pathMatch) {
+        const detectedBasename = pathMatch[1]
+        console.log('[Router] Detected basename from URL pathname:', detectedBasename)
+        // Also set it on window for consistency
+        ;(window as { __PREVIEW_BASENAME__?: string }).__PREVIEW_BASENAME__ = detectedBasename
+        return detectedBasename
+      }
     }
   }
 
@@ -20,6 +34,7 @@ function getBasename(): string {
   }
 
   // Default: no basename (root deployment)
+  console.log('[Router] No basename detected, using root')
   return ''
 }
 
