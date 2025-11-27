@@ -1,7 +1,4 @@
 import React, { Component, ReactNode } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertTriangle } from 'lucide-react'
 
 interface Props {
   children: ReactNode
@@ -24,7 +21,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Error logging can be added here if needed
     if (import.meta.env.DEV) {
       console.error('ErrorBoundary caught an error:', error, errorInfo)
     }
@@ -42,27 +38,25 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="flex min-h-screen items-center justify-center p-4">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
-                <CardTitle>Something went wrong</CardTitle>
+          <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="mb-2 text-xl font-semibold">Something went wrong</h2>
+            <p className="mb-4 text-gray-600 dark:text-gray-400">
+              An unexpected error occurred. Please try again.
+            </p>
+            {this.state.error && (
+              <div className="mb-4 rounded-md bg-gray-100 p-3 dark:bg-gray-800">
+                <p className="text-sm font-mono text-gray-800 dark:text-gray-200">
+                  {this.state.error.message}
+                </p>
               </div>
-              <CardDescription>An unexpected error occurred. Please try again.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {this.state.error && (
-                <div className="rounded-md bg-muted p-3">
-                  <p className="text-sm font-mono text-muted-foreground">
-                    {this.state.error.message}
-                  </p>
-                </div>
-              )}
-              <Button onClick={this.handleReset} className="w-full">
-                Try Again
-              </Button>
-            </CardContent>
-          </Card>
+            )}
+            <button
+              onClick={this.handleReset}
+              className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            >
+              Try Again
+            </button>
+          </div>
         </div>
       )
     }
