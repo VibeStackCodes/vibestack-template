@@ -24,5 +24,14 @@ export default defineConfig({
       clientPort: 443,
       protocol: 'wss',
     },
+    headers: {
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+      // Note: COEP is intentionally not set here to avoid Firefox security errors
+      // when the preview is embedded in iframes or navigated to from pages without COEP.
+      // The platform middleware handles COEP policy for preview routes.
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Authorization',
+    },
   },
 })
