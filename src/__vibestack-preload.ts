@@ -72,13 +72,33 @@ function buildElementInfo(el: Element) {
       backgroundColor: computed.backgroundColor,
       fontSize: computed.fontSize,
       fontWeight: computed.fontWeight,
-      padding: computed.padding,
-      margin: computed.margin,
       textAlign: computed.textAlign,
       display: computed.display,
       width: computed.width,
       height: computed.height,
+      // Per-side margin
+      marginTop: computed.marginTop,
+      marginRight: computed.marginRight,
+      marginBottom: computed.marginBottom,
+      marginLeft: computed.marginLeft,
+      // Per-side padding
+      paddingTop: computed.paddingTop,
+      paddingRight: computed.paddingRight,
+      paddingBottom: computed.paddingBottom,
+      paddingLeft: computed.paddingLeft,
+      // Flex/grid
+      flexDirection: computed.flexDirection,
+      gap: computed.gap,
+      // Border
+      borderWidth: computed.borderWidth,
+      borderStyle: computed.borderStyle,
+      borderColor: computed.borderColor,
       borderRadius: computed.borderRadius,
+      // Effects
+      opacity: computed.opacity,
+      boxShadow: computed.boxShadow,
+      // Image
+      objectFit: computed.objectFit,
     },
     elementType,
     isEditable: elementType === 'text',
@@ -172,9 +192,27 @@ const connection = connect({
         backgroundColor: computed.backgroundColor,
         fontSize: computed.fontSize,
         fontWeight: computed.fontWeight,
-        padding: computed.padding,
-        margin: computed.margin,
         textAlign: computed.textAlign,
+        display: computed.display,
+        width: computed.width,
+        height: computed.height,
+        marginTop: computed.marginTop,
+        marginRight: computed.marginRight,
+        marginBottom: computed.marginBottom,
+        marginLeft: computed.marginLeft,
+        paddingTop: computed.paddingTop,
+        paddingRight: computed.paddingRight,
+        paddingBottom: computed.paddingBottom,
+        paddingLeft: computed.paddingLeft,
+        flexDirection: computed.flexDirection,
+        gap: computed.gap,
+        borderWidth: computed.borderWidth,
+        borderStyle: computed.borderStyle,
+        borderColor: computed.borderColor,
+        borderRadius: computed.borderRadius,
+        opacity: computed.opacity,
+        boxShadow: computed.boxShadow,
+        objectFit: computed.objectFit,
       }
     },
 
@@ -182,6 +220,11 @@ const connection = connect({
       const el = document.querySelector(`[${OID_ATTR}="${oid}"]`)
       if (!el) return []
       return extractTailwindClasses(el)
+    },
+
+    deleteElement(oid: string) {
+      const el = document.querySelector(`[${OID_ATTR}="${oid}"]`)
+      if (el) el.remove()
     },
 
     scrollToElement(oid: string) {
