@@ -38,13 +38,13 @@ SRC_FILES=(
   src/__vibestack-preload.ts
   src/index.css
   src/vite-env.d.ts
+  src/lib/utils.ts
 )
 
 # ---------------------------------------------------------------------------
 # Source directories to rsync (with --delete)
 # ---------------------------------------------------------------------------
 SRC_DIRS=(
-  src/lib
   src/components/ui
   src/hooks
   src/test
