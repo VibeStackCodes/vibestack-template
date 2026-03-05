@@ -77,45 +77,49 @@ for tmpl in "${templates[@]}"; do
   # Copy root files
   for file in "${ROOT_FILES[@]}"; do
     src="$SOURCE_DIR/$file"
-    if [ -f "$src" ]; then
-      cp "$src" "$tmpl/$file"
-    else
-      echo "  WARN: source missing $file"
+    if [ ! -f "$src" ]; then
+      echo "ERROR: source missing $file" >&2
+      exit 1
     fi
+    cp "$src" "$tmpl/$file"
   done
 
   # Copy individual src files
   for file in "${SRC_FILES[@]}"; do
     src="$SOURCE_DIR/$file"
-    if [ -f "$src" ]; then
-      mkdir -p "$tmpl/$(dirname "$file")"
-      cp "$src" "$tmpl/$file"
-    else
-      echo "  WARN: source missing $file"
+    if [ ! -f "$src" ]; then
+      echo "ERROR: source missing $file" >&2
+      exit 1
     fi
+    mkdir -p "$tmpl/$(dirname "$file")"
+    cp "$src" "$tmpl/$file"
   done
 
   # Rsync source directories (--delete removes files not in base)
   for dir in "${SRC_DIRS[@]}"; do
     src="$SOURCE_DIR/$dir/"
-    if [ -d "$SOURCE_DIR/$dir" ]; then
-      mkdir -p "$tmpl/$dir"
-      rsync -a --delete "$src" "$tmpl/$dir/"
-    else
-      echo "  WARN: source dir missing $dir"
+    if [ ! -d "$SOURCE_DIR/$dir" ]; then
+      echo "ERROR: source dir missing $dir" >&2
+      exit 1
     fi
+    mkdir -p "$tmpl/$dir"
+    rsync -ac --delete "$src" "$tmpl/$dir/"
   done
 done
 
 # ---------------------------------------------------------------------------
 # Diff detection
 # ---------------------------------------------------------------------------
-if cd "$TEMPLATES_DIR" && git diff --quiet 2>/dev/null; then
+cd "$TEMPLATES_DIR"
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  echo "ERROR: $TEMPLATES_DIR is not a git repository" >&2
+  exit 1
+fi
+
+if [ -z "$(git status --porcelain)" ]; then
   echo "changed=false" >> "$OUTPUT_FILE"
   echo "No changes detected."
 else
   echo "changed=true" >> "$OUTPUT_FILE"
   echo "Changes detected."
 fi
-
-exit 0
