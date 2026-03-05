@@ -39,6 +39,7 @@ SRC_FILES=(
   src/index.css
   src/vite-env.d.ts
   src/lib/utils.ts
+  src/components/vibestack-badge.tsx
 )
 
 # ---------------------------------------------------------------------------
@@ -48,6 +49,13 @@ SRC_DIRS=(
   src/components/ui
   src/hooks
   src/test
+)
+
+# ---------------------------------------------------------------------------
+# Dotfile directories to sync
+# ---------------------------------------------------------------------------
+DOT_DIRS=(
+  .vibestack
 )
 
 # ---------------------------------------------------------------------------
@@ -97,6 +105,17 @@ for tmpl in "${templates[@]}"; do
 
   # Rsync source directories (--delete removes files not in base)
   for dir in "${SRC_DIRS[@]}"; do
+    src="$SOURCE_DIR/$dir/"
+    if [ ! -d "$SOURCE_DIR/$dir" ]; then
+      echo "ERROR: source dir missing $dir" >&2
+      exit 1
+    fi
+    mkdir -p "$tmpl/$dir"
+    rsync -ac --delete "$src" "$tmpl/$dir/"
+  done
+
+  # Rsync dotfile directories
+  for dir in "${DOT_DIRS[@]}"; do
     src="$SOURCE_DIR/$dir/"
     if [ ! -d "$SOURCE_DIR/$dir" ]; then
       echo "ERROR: source dir missing $dir" >&2
