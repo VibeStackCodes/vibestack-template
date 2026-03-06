@@ -1,0 +1,18 @@
+name: Rebuild Daytona Snapshot
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger snapshot rebuild
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.SNAPSHOT_REPO_TOKEN }}
+          repository: VibeStackCodes/vibestack-snapshot
+          event-type: template-updated
+          client-payload: '{"sha": "${{ github.sha }}", "ref": "${{ github.ref }}"}'
